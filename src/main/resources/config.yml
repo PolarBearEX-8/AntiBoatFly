@@ -1,0 +1,69 @@
+# all = check Java and Bedrock players, geyser = check only players confirmed
+# by the Geyser or Floodgate runtime API.
+target-mode: all
+
+# Number of ticks allowed when transitioning from ground/water to air.
+airborne-grace-ticks: 5
+
+# Legacy motion heuristic. Keep disabled when boat-simulation is enabled.
+immediate-boat-detection: false
+
+# Airborne boat simulation. Incoming VEHICLE_MOVE packets outside the predicted
+# gravity/drag envelope are cancelled before the server applies them.
+boat-simulation:
+  enabled: true
+  gravity-per-tick: 0.04
+  horizontal-drag: 0.90
+  # Per-packet limits are enforced from the first packet after mounting.
+  # The upward limit starts only after the server confirms that the boat is
+  # airborne, allowing legitimate water buoyancy and surface collision impulses.
+  maximum-packet-upward-movement: 0.12
+  maximum-packet-horizontal-movement: 1.25
+  maximum-packet-downward-movement: 4.0
+  # Only upward advantage is invalid. Falling faster than predicted remains valid.
+  # Includes one-tick rounding tolerance for Bedrock/Geyser packet timing.
+  vertical-offset-tolerance: 0.10
+  # Horizontal boat controls are client-sensitive, so use a wide safety envelope.
+  horizontal-offset-tolerance: 1.25
+  cancel-invalid-packets: true
+
+# An airborne vehicle should lose at least this much height per tick.
+minimum-fall-speed: 0.025
+
+# Allowed increase in vertical speed between ticks for lag and physics rounding.
+maximum-upward-acceleration: 0.035
+
+# Minimum horizontal movement required before hovering counts as mounted flight.
+minimum-horizontal-motion: 0.055
+
+# Maximum motion difference between a rider and vehicle before spoof/desync is suspected.
+player-vehicle-motion-tolerance: 0.30
+
+# Packet-level checks powered by PacketEvents.
+packet-check:
+  enabled: true
+  # Keep packets as supporting evidence. The velocity watchdog handles instant punishment.
+  cancel-immediately-for-boats: false
+  # Maximum distance between the packet position and authoritative server position.
+  maximum-server-distance: 3.0
+  # Maximum displacement allowed in a single vehicle movement packet.
+  maximum-packet-displacement: 4.0
+  violation-threshold: 6.0
+  violation-decay: 0.75
+
+# Rideable animals can jump legitimately. Ignore their takeoff for this many ticks.
+animal-jump-grace-ticks: 20
+
+# Violation threshold and decay applied while movement returns to normal.
+violation-threshold: 6.0
+violation-decay: 1.25
+
+# dismount = remove rider, teleport = return to last safe position, none = alert only.
+action: dismount
+
+# Alert cooldown per suspect in milliseconds.
+alert-cooldown-ms: 1500
+
+messages:
+  prefix: '&8[&cAntiBoatFly&8] '
+  alert: '&f%player% &7failed MountedFly &8(&7%reason%&8, VL: &c%vl%&8)'

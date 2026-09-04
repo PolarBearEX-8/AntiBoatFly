@@ -1,0 +1,25 @@
+name: AntiBoatFly
+version: '${version}'
+main: dev.antiboatfly.AntiBoatFlyPlugin
+api-version: '1.21'
+folia-supported: true
+depend: [packetevents]
+softdepend: [Geyser-Spigot, floodgate]
+author: AntiBoatFly
+description: Detects spoofed or non-freefall movement on boats and rideable entities.
+commands:
+  antiboatfly:
+    description: AntiBoatFly administration command
+    usage: /antiboatfly <reload|status>
+    aliases: [abf]
+    permission: antiboatfly.admin
+permissions:
+  antiboatfly.admin:
+    description: Allows access to AntiBoatFly administration commands
+    default: op
+  antiboatfly.alerts:
+    description: Receives AntiBoatFly alerts
+    default: op
+  antiboatfly.bypass:
+    description: Exempts a player from AntiBoatFly checks
+    default: false
