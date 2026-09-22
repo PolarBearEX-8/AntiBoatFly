@@ -6,7 +6,7 @@ target-mode: all
 # horses includes horses, donkeys, mules, llamas, and camels.
 # other-vehicles covers every remaining Bukkit Vehicle type.
 vehicle-checks:
-  boats: true # experimental: validated by the dedicated airborne boat simulation.
+  boats: true # validated by the dedicated airborne boat simulation.
   horses: true # experimental: uses the generic mounted-movement checks.
   pigs: true # experimental: uses the generic mounted-movement checks.
   striders: true # experimental: uses the generic mounted-movement checks.
