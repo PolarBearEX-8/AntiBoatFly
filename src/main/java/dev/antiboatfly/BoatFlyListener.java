@@ -72,8 +72,12 @@ final class BoatFlyListener implements Listener {
     public void onVehicleMove(VehicleMoveEvent event) {
         Vehicle vehicle = event.getVehicle();
         Player driver = getController(vehicle);
-        if (driver == null || !plugin.shouldCheckPlayer(driver)) {
+        if (driver == null || !plugin.shouldCheckPlayer(driver) || !plugin.shouldCheckVehicle(vehicle)) {
             states.remove(vehicle.getUniqueId());
+            if (driver != null) {
+                riderStates.remove(driver.getUniqueId());
+                packetListener.remove(driver.getUniqueId());
+            }
             return;
         }
 
@@ -213,6 +217,11 @@ final class BoatFlyListener implements Listener {
             riderStates.remove(player.getUniqueId());
             return;
         }
+        if (!plugin.shouldCheckVehicle(vehicle)) {
+            riderStates.remove(player.getUniqueId());
+            packetListener.remove(player.getUniqueId());
+            return;
+        }
         if (vehicle instanceof Boat && packetListener.isBoatSimulationEnabled()) {
             riderStates.remove(player.getUniqueId());
             return;
@@ -331,7 +340,7 @@ final class BoatFlyListener implements Listener {
         if (!plugin.shouldCheckPlayer(player)) {
             return;
         }
-        if (player.getVehicle() instanceof Vehicle vehicle) {
+        if (player.getVehicle() instanceof Vehicle vehicle && plugin.shouldCheckVehicle(vehicle)) {
             FlightState state = states.get(vehicle.getUniqueId());
             Location safe = state == null ? vehicle.getLocation() : state.lastSafeLocation;
             if (vehicle instanceof Boat
@@ -376,7 +385,7 @@ final class BoatFlyListener implements Listener {
     @EventHandler
     public void onVehicleEnter(VehicleEnterEvent event) {
         if (event.getEntered() instanceof Player player && event.getVehicle() instanceof Vehicle vehicle
-                && plugin.shouldCheckPlayer(player)) {
+                && plugin.shouldCheckPlayer(player) && plugin.shouldCheckVehicle(vehicle)) {
             Location location = vehicle.getLocation();
             boolean supported = hasPhysicalSupport(vehicle);
             packetListener.updateServerState(player, vehicle, location, supported,

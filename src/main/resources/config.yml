@@ -2,6 +2,17 @@
 # by the Geyser or Floodgate runtime API.
 target-mode: all
 
+# Enable or disable checks per vehicle group. Run /antiboatfly reload after editing.
+# horses includes horses, donkeys, mules, llamas, and camels.
+# other-vehicles covers every remaining Bukkit Vehicle type.
+vehicle-checks:
+  boats: true # experimental: validated by the dedicated airborne boat simulation.
+  horses: true # experimental: uses the generic mounted-movement checks.
+  pigs: true # experimental: uses the generic mounted-movement checks.
+  striders: true # experimental: uses the generic mounted-movement checks.
+  minecarts: true # experimental: uses the generic mounted-movement checks.
+  other-vehicles: true # experimental: custom Bukkit Vehicle implementations only.
+
 # Number of ticks allowed when transitioning from ground/water to air.
 airborne-grace-ticks: 5
 

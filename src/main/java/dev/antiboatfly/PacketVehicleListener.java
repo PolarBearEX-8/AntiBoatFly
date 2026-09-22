@@ -88,7 +88,7 @@ final class PacketVehicleListener extends PacketListenerAbstract {
 
     void updateServerState(Player player, Vehicle vehicle, Location location, boolean supported,
                            boolean collisionSurfaceNearby, int airborneTicks) {
-        if (!plugin.shouldCheckPlayer(player)) {
+        if (!plugin.shouldCheckPlayer(player) || !plugin.shouldCheckVehicle(vehicle)) {
             states.remove(player.getUniqueId());
             return;
         }
@@ -146,6 +146,10 @@ final class PacketVehicleListener extends PacketListenerAbstract {
             return;
         }
         if (!plugin.shouldCheckPlayer(player)) {
+            states.remove(player.getUniqueId());
+            return;
+        }
+        if (player.getVehicle() instanceof Vehicle vehicle && !plugin.shouldCheckVehicle(vehicle)) {
             states.remove(player.getUniqueId());
             return;
         }

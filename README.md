@@ -57,6 +57,18 @@ PacketEvents is a provided dependency and is not bundled into the plugin JAR.
 - `target-mode: geyser` checks only players confirmed through the optional
   Geyser or Floodgate runtime API.
 
+## Vehicle groups
+
+Each group can be enabled or disabled under `vehicle-checks` in `config.yml`.
+Changes apply after `/antiboatfly reload`.
+
+- `boats`
+- `horses` (horses, donkeys, mules, llamas, and camels)
+- `pigs`
+- `striders`
+- `minecarts`
+- `other-vehicles` (all other Bukkit `Vehicle` types)
+
 ## Commands and permissions
 
 - `/antiboatfly reload` reloads the configuration.
